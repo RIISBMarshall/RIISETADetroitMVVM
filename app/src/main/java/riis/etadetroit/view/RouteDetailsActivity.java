@@ -10,7 +10,7 @@ import android.widget.SimpleCursorAdapter;
 import android.widget.TextView;
 
 import riis.etadetroit.R;
-import riis.etadetroit.controller.Controller;
+import riis.etadetroit.model.ETADetroitDatabaseHelper;
 
 public class RouteDetailsActivity extends Activity {
 
@@ -18,21 +18,22 @@ public class RouteDetailsActivity extends Activity {
     private TextView routeDetails;
     private String route;
     private String routeId;
+    private ETADetroitDatabaseHelper eTADetroitDatabaseHelper;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_route_details);
-        final Controller aController = (Controller) getApplicationContext();
+        eTADetroitDatabaseHelper = new ETADetroitDatabaseHelper(this);
         Intent intent = getIntent();
         route = intent.getStringExtra(EXTRA_ROUTE);
         routeDetails = (TextView) findViewById(R.id.routeDetails);
-        getRouteDetails(aController);
-        getRouteStops(aController);
+        showRouteDetails();
+        showRouteStops();
     }
 
-    private void getRouteDetails(Controller aController) {
-        Cursor routeDetailsCursor = aController.getRouteDetails(route);
+    private void showRouteDetails() {
+        Cursor routeDetailsCursor = getRouteDetails(route);
 
         if (routeDetailsCursor.moveToFirst()) {
             routeDetails.setText("ROUTE DETAILS" +
@@ -47,12 +48,20 @@ public class RouteDetailsActivity extends Activity {
         }
     }
 
-    private void getRouteStops(Controller aController) {
-        Cursor routeStopsCursor = aController.getRouteStops(routeId);
+    private void showRouteStops() {
+        Cursor routeStopsCursor = getRouteStops(routeId);
 
         CursorAdapter routeStopsCursorAdapter = new SimpleCursorAdapter(this, R.layout.adapter_route_stops_cursor, routeStopsCursor, new String[]{"stop_name"},
                 new int[]{R.id.list_content}, 0);
         ListView stopList = (ListView) findViewById(R.id.stopList);
         stopList.setAdapter(routeStopsCursorAdapter);
+    }
+
+    public Cursor getRouteDetails(String route) {
+        return eTADetroitDatabaseHelper.getRouteDetails(route);
+    }
+
+    public Cursor getRouteStops(String route_id) {
+        return eTADetroitDatabaseHelper.getRouteStops(route_id);
     }
 }

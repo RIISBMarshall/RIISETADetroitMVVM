@@ -14,8 +14,9 @@ import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
 
-import riis.etadetroit.controller.Controller;
 import riis.etadetroit.R;
+import riis.etadetroit.model.CompanyData;
+import riis.etadetroit.model.ETADetroitDatabaseHelper;
 
 /**
  * Created by bmarshall on 1/30/17.
@@ -25,12 +26,12 @@ public class CompanyListAdapter extends RecyclerView.Adapter<CompanyListAdapter.
 
     private final Context mContext;
     private OnItemClickListener mItemClickListener;
-    private final Controller aController;
+    private ETADetroitDatabaseHelper eTADetroitDatabaseHelper;
 
     // 2
-    public CompanyListAdapter(Context context, Controller aController) {
+    public CompanyListAdapter(Context context) {
         this.mContext = context;
-        this.aController = aController;
+        eTADetroitDatabaseHelper = new ETADetroitDatabaseHelper(mContext);
     }
 
     // 3
@@ -67,7 +68,21 @@ public class CompanyListAdapter extends RecyclerView.Adapter<CompanyListAdapter.
 
     @Override
     public int getItemCount() {
-        return aController.getCompanyListSize();
+        return getCompanyListSize();
+    }
+
+    public int getCompanyListSize() {
+        return eTADetroitDatabaseHelper.getCompanyNames().getCount();
+    }
+
+    public String getCompanyName(int position) {
+        CompanyData companyData = new CompanyData(eTADetroitDatabaseHelper.getCompanyNames());
+        return companyData.getCompanyName(position);
+    }
+
+    public int getCompanyImageResourceId(Context context, int position) {
+        CompanyData companyData = new CompanyData(eTADetroitDatabaseHelper.getCompanyNames());
+        return companyData.getCompanyImageResourceId(context, position);
     }
 
     // 2
@@ -80,10 +95,10 @@ public class CompanyListAdapter extends RecyclerView.Adapter<CompanyListAdapter.
     // 3
     @Override
     public void onBindViewHolder(final ViewHolder holder, final int position) {
-        holder.placeName.setText(aController.getCompanyName(position));
-        Picasso.with(mContext).load(aController.getCompanyImageResourceId(mContext, position)).into(holder.placeImage);
+        holder.placeName.setText(getCompanyName(position));
+        Picasso.with(mContext).load(getCompanyImageResourceId(mContext, position)).into(holder.placeImage);
 
-        Bitmap photo = BitmapFactory.decodeResource(mContext.getResources(), aController.getCompanyImageResourceId(mContext, position));
+        Bitmap photo = BitmapFactory.decodeResource(mContext.getResources(), getCompanyImageResourceId(mContext, position));
         new Palette.Builder(photo).generate(new Palette.PaletteAsyncListener() {
             public void onGenerated(Palette palette) {
                 int bgColor = palette.getMutedColor(mContext.getResources().getColor(android.R.color.black));

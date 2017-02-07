@@ -1,6 +1,7 @@
 package riis.etadetroit.view;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
@@ -19,7 +20,8 @@ import android.widget.TextView;
 import riis.etadetroit.R;
 import riis.etadetroit.adapters.RouteCursorAdapter;
 import riis.etadetroit.adapters.TransitionAdapter;
-import riis.etadetroit.controller.Controller;
+import riis.etadetroit.model.CompanyData;
+import riis.etadetroit.model.ETADetroitDatabaseHelper;
 
 public class CompanyDetailsActivity extends Activity {
 
@@ -33,19 +35,20 @@ public class CompanyDetailsActivity extends Activity {
     private int defaultColor;
     private String companyName;
     private int companyImageResourceId;
-    private Controller aController;
 
+    private ETADetroitDatabaseHelper eTADetroitDatabaseHelper;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_company_details);
-        aController = (Controller) getApplicationContext();
+
+        eTADetroitDatabaseHelper = new ETADetroitDatabaseHelper(this);
 
         int companyPosition = getIntent().getIntExtra(EXTRA_PARAM_ID, 0);
 
-        companyName = aController.getCompanyName(companyPosition);
-        companyImageResourceId = aController.getCompanyImageResourceId(this, companyPosition);
+        companyName = getCompanyName(companyPosition);
+        companyImageResourceId = getCompanyImageResourceId(this, companyPosition);
 
         mList = (ListView) findViewById(R.id.list);
         mImageView = (ImageView) findViewById(R.id.busImage);
@@ -72,8 +75,22 @@ public class CompanyDetailsActivity extends Activity {
         });
     }
 
+    public int getCompanyImageResourceId(Context context, int position) {
+        CompanyData companyData = new CompanyData(eTADetroitDatabaseHelper.getCompanyNames());
+        return companyData.getCompanyImageResourceId(context, position);
+    }
+
+    public String getCompanyName(int position) {
+        CompanyData companyData = new CompanyData(eTADetroitDatabaseHelper.getCompanyNames());
+        return companyData.getCompanyName(position);
+    }
+
+    public Cursor getRoutes(String company) {
+        return eTADetroitDatabaseHelper.getRoutes(company);
+    }
+
     private void setUpAdapter() {
-        routeCursor = aController.getRoutes(companyName);
+        routeCursor = getRoutes(companyName);
         RouteCursorAdapter routeAdapter = new RouteCursorAdapter(this, routeCursor);
         mList.setAdapter(routeAdapter);
     }

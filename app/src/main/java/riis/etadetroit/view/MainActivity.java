@@ -18,7 +18,6 @@ import android.widget.Toolbar;
 
 import riis.etadetroit.adapters.CompanyListAdapter;
 import riis.etadetroit.R;
-import riis.etadetroit.controller.Controller;
 
 
 public class MainActivity extends Activity {
@@ -33,14 +32,12 @@ public class MainActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        final Controller aController = (Controller) getApplicationContext();
-
         isListView = true;
 
         RecyclerView mRecyclerView = (RecyclerView) findViewById(R.id.list);
         mStaggeredLayoutManager = new StaggeredGridLayoutManager(1, StaggeredGridLayoutManager.VERTICAL);
         mRecyclerView.setLayoutManager(mStaggeredLayoutManager);
-        CompanyListAdapter mAdapter = new CompanyListAdapter(this, aController);
+        CompanyListAdapter mAdapter = new CompanyListAdapter(this);
         mRecyclerView.setAdapter(mAdapter);
         mAdapter.setOnItemClickListener(onItemClickListener);
         toolbar = (Toolbar) findViewById(R.id.toolbar);
