@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:context="riis.etadetroit.view.RouteDetailsActivity">
     <data>
-        <variable name="routeDetails" type="String"></variable>
+        <variable name="routeDetailsViewModel" type="riis.etadetroit.viewmodel.RouteDetailsViewModel"></variable>
     </data>
 
 <LinearLayout
@@ -20,7 +20,7 @@
         android:textAppearance="?android:textAppearanceLarge"
         android:textColor="@android:color/white"
         android:gravity="left"
-        android:text="@{routeDetails}"/>
+        android:text="@{routeDetailsViewModel.routeDetails}"/>
 
     <ListView
         android:id="@+id/stopList"
