@@ -27,7 +27,6 @@ public class RouteDetailsActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_route_details);
         ActivityRouteDetailsBinding binding = DataBindingUtil.setContentView(this, R.layout.activity_route_details);
-        routeDetails = "is this working???";
 
         eTADetroitDatabaseHelper = new ETADetroitDatabaseHelper(this);
         Intent intent = getIntent();
