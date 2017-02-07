@@ -1,0 +1,11 @@
+<resources>
+    <string name="app_name">ETADETROIT</string>
+
+    <string name="action_settings">Settings</string>
+
+    <string name="desc">description</string>
+
+    <string name="routes">ROUTES</string>
+
+    <string name="show_as_grid">Show as grid</string>
+</resources>
