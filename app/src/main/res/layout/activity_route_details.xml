@@ -2,30 +2,34 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     tools:context="riis.etadetroit.view.RouteDetailsActivity">
+
     <data>
-        <variable name="routeDetailsViewModel" type="riis.etadetroit.viewmodel.RouteDetailsViewModel"></variable>
+
+        <variable
+            name="routeDetailsViewModel"
+            type="riis.etadetroit.viewmodel.RouteDetailsViewModel"></variable>
     </data>
 
-<LinearLayout
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:id="@+id/route_details_layout"
-    android:background="@color/primary_dark">
-
-    <TextView
-        android:id="@+id/routeDetails"
+    <LinearLayout
+        android:id="@+id/route_details_layout"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:textAppearanceLarge"
-        android:textColor="@android:color/white"
-        android:gravity="left"
-        android:text="@{routeDetailsViewModel.routeDetails}"/>
+        android:layout_height="match_parent"
+        android:background="@color/primary_dark"
+        android:orientation="vertical">
 
-    <ListView
-        android:id="@+id/stopList"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:requiresFadingEdge="vertical"/>
-</LinearLayout>
+        <TextView
+            android:id="@+id/routeDetails"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="left"
+            android:text="@{routeDetailsViewModel.routeDetails}"
+            android:textAppearance="?android:textAppearanceLarge"
+            android:textColor="@android:color/white" />
+
+        <ListView
+            android:id="@+id/stopList"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:requiresFadingEdge="vertical" />
+    </LinearLayout>
 </layout>

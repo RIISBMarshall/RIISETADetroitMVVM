@@ -1,59 +1,74 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="riis.etadetroit.view.CompanyDetailsActivity">
+
+    <data>
+
+        <variable
+            name="companyDetailsViewModel"
+            type="riis.etadetroit.viewmodel.CompanyDetailsViewModel"></variable>
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
         <ImageView
             android:id="@+id/busImage"
             android:layout_width="match_parent"
             android:layout_height="220dp"
+            android:contentDescription="@string/desc"
             android:scaleType="centerCrop"
             android:transitionName="tImage"
-            android:contentDescription="@string/desc"/>
+            android:src="@{companyDetailsViewModel.busImage}"/>
 
         <include
             android:id="@+id/toolbar"
-            layout="@layout/toolbar_detail"/>
+            layout="@layout/toolbar_detail" />
 
-    <FrameLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-        <LinearLayout
-            android:id="@+id/busNameHolder"
+        <FrameLayout
             android:layout_width="match_parent"
-            android:layout_height="60dp"
-            android:background="@color/primary_dark"
-            android:transitionName="tNameHolder">
+            android:layout_height="wrap_content">
 
-            <TextView
-                android:id="@+id/textView"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:paddingLeft="10dp"
-                android:textAppearance="?android:attr/textAppearanceLarge"
-                android:textColor="@android:color/white" />
+            <LinearLayout
+                android:id="@+id/busNameHolder"
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:background="@{companyDetailsViewModel.titleHolderBackgroundColor}"
+                android:transitionName="tNameHolder">
 
-        </LinearLayout>
+                <TextView
+                    android:id="@+id/textView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:paddingLeft="10dp"
+                    android:textAppearance="?android:attr/textAppearanceLarge"
+                    android:textColor="@android:color/white"
+                    android:text="@{companyDetailsViewModel.companyName}"/>
 
-    </FrameLayout>
+            </LinearLayout>
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="15dp"
-        android:layout_marginTop="10dp"
-        android:text="@string/routes"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:textColor="@android:color/white"
-        android:gravity="center"/>
+        </FrameLayout>
 
-    <ListView
-        android:id="@+id/list"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:requiresFadingEdge="vertical" />
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="15dp"
+            android:layout_marginTop="10dp"
+            android:gravity="center"
+            android:text="@string/routes"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textColor="@android:color/white" />
 
-</LinearLayout>
+        <ListView
+            android:id="@+id/list"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:requiresFadingEdge="vertical" />
+
+    </LinearLayout>
+
+</layout>
